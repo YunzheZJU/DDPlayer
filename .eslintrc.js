@@ -9,8 +9,10 @@ module.exports = {
         'plugin:vue/essential'
     ],
     'parserOptions': {
+        "parser": "babel-eslint",
         'ecmaVersion': 2015,
-        'sourceType': 'module'
+        'sourceType': 'module',
+        "allowImportExportEverywhere": true
     },
     'rules': {
         'indent': [

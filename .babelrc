@@ -1,5 +1,10 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["transform-runtime"],
+  "presets": [
+    "es2015"
+  ],
+  "plugins": [
+    "transform-runtime",
+    "syntax-dynamic-import"
+  ],
   "comments": false
 }
