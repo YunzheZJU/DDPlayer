@@ -2,9 +2,12 @@ module.exports = {
     'env': {
         'browser': true,
         'es6': true,
-        "commonjs": true
+        'commonjs': true
     },
-    'extends': 'eslint:recommended',
+    'extends': [
+        'eslint:recommended',
+        'plugin:vue/essential'
+    ],
     'parserOptions': {
         'ecmaVersion': 2015,
         'sourceType': 'module'
@@ -25,6 +28,10 @@ module.exports = {
         'semi': [
             'error',
             'always'
+        ],
+        'comma-dangle': [
+            'error',
+            'always-multiline'
         ],
         'no-undef': 0,
         'no-console': 0,

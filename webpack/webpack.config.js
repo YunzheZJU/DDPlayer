@@ -17,13 +17,13 @@ module.exports = function (env = {}) {
 
     const plugins = [
         new MiniCssExtractPlugin({
-            filename: `main${isProduction ? '.[contenthash]' : ''}.css`
+            filename: `main${isProduction ? '.[contenthash]' : ''}.css`,
         }),
         new VueLoaderPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(isProduction ? 'production' : 'development'),
-            }
+            },
         }),
     ];
 
@@ -35,7 +35,7 @@ module.exports = function (env = {}) {
 
     return {
         entry: {
-            main: './src/main.js'
+            main: './src/main.js',
         },
         output: {
             path: path.join(__dirname, '../dist'),
@@ -49,8 +49,8 @@ module.exports = function (env = {}) {
                     test: /\.css$/,
                     use: [
                         MiniCssExtractPlugin.loader,
-                        'css-loader'
-                    ]
+                        'css-loader',
+                    ],
                 },
                 {
                     test: /\.vue$/,
@@ -59,7 +59,7 @@ module.exports = function (env = {}) {
                 {
                     test: /\.js$/,
                     loader: 'babel-loader',
-                    exclude: /node_modules/
+                    exclude: /node_modules/,
                 },
                 {
                     test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
@@ -71,19 +71,19 @@ module.exports = function (env = {}) {
                         MiniCssExtractPlugin.loader,
                         'css-loader',
                         'less-loader',
-                    ]
-                }
-            ]
+                    ],
+                },
+            ],
         },
         plugins: plugins,
         optimization: isProduction ? {
             minimizer: [
                 new UglifyJsPlugin({
                     cache: true,
-                    parallel: true
+                    parallel: true,
                 }),
-                new OptimizeCSSAssetsPlugin()
-            ]
+                new OptimizeCSSAssetsPlugin(),
+            ],
         } : undefined,
         devServer: {
             open: true,
@@ -92,10 +92,10 @@ module.exports = function (env = {}) {
                     {
                         from: /./,
                         to: '/src/index.html',
-                    }
-                ]
-            }
+                    },
+                ],
+            },
         },
-        devtool: isProduction ? false : 'source-map'
+        devtool: isProduction ? false : 'source-map',
     };
 };
