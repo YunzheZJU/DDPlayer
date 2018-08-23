@@ -72,6 +72,6 @@ module.exports = {
         'no-useless-computed-key': 1,
         'no-useless-rename': 1,
         'rest-spread-spacing': 1,
-        'no-trailing-spaces': 1,
+        'no-trailing-spaces': 0,
     }
 };
