@@ -18,6 +18,7 @@ module.exports = function (env = {}) {
     const plugins = [
         new MiniCssExtractPlugin({
             filename: `main${isProduction ? '.[contenthash]' : ''}.css`,
+            chunkFilename: `[name]${isProduction ? '.[contenthash]' : ''}.css`,
         }),
         new VueLoaderPlugin(),
         new webpack.DefinePlugin({
@@ -38,9 +39,10 @@ module.exports = function (env = {}) {
             main: './src/main.js',
         },
         output: {
-            path: path.join(__dirname, '../dist'),
+            path: path.join(__dirname, 'dist'),
             publicPath: '/dist/',
             filename: `main${isProduction ? '.[hash]' : ''}.js`,
+            chunkFilename: `[name]${isProduction ? '.[hash]' : ''}.js`,
         },
         mode: isProduction ? 'production' : 'development',
         module: {
@@ -50,6 +52,7 @@ module.exports = function (env = {}) {
                     use: [
                         MiniCssExtractPlugin.loader,
                         'css-loader',
+                        'postcss-loader',
                     ],
                 },
                 {
@@ -66,11 +69,11 @@ module.exports = function (env = {}) {
                     loader: 'url-loader?limit=1024',
                 },
                 {
-                    test: /\.less$/,
+                    test: /\.scss$/,
                     use: [
                         MiniCssExtractPlugin.loader,
                         'css-loader',
-                        'less-loader',
+                        'postcss-loader',
                     ],
                 },
             ],
