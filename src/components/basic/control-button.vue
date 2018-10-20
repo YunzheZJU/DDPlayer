@@ -5,7 +5,7 @@
                  @mousedown="isLeftActive = true" @mouseleave="isLeftActive = false" @mouseup="isLeftActive = false">
                 <slot name="left"></slot>
             </div>
-            <div class="control-button-main" :class="{active: isMainActive}" @click="handleClickMain"
+            <div class="control-button-main" :class="{active: isMainActive}"
                  v-drag="dragHandlers" @dblclick="handleDblClickMain">
                 <slot name="main"></slot>
             </div>
@@ -86,6 +86,8 @@ export default {
                 this.handleClickLeft();
             } else if (this.isRightActive) {
                 this.handleClickRight();
+            } else {
+                this.handleClickMain();
             }
             this.isLeftActive = false;
             this.isMainActive = false;

@@ -50,7 +50,9 @@ export default {
             for (let i = 0; i < getters.playlistLength; i++) {
                 order[i] = i + 1;
             }
-            order[getters.playlistLength - 1] = 0;
+            if (getters.playlistLength) {
+                order[getters.playlistLength - 1] = 0;
+            }
 
             return order;
         },
@@ -77,8 +79,10 @@ export default {
             for (let i = 0; i < getters.playlistLength; i++) {
                 order[i] = i + 1;
             }
-            // 表示一轮循环之后停止播放
-            order[getters.playlistLength - 1] = -1;
+            if (getters.playlistLength) {
+                // 表示一轮循环之后停止播放
+                order[getters.playlistLength - 1] = -1;
+            }
 
             return order;
         },

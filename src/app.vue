@@ -241,8 +241,8 @@ export default {
             },
             dragPlayHandlers: {
                 mousedown: this.handlePlayMousedown,
-                mouseup: this.handlePlayMouseup,
                 mousemove: this.handlePlayMousemove,
+                mouseup: this.handlePlayMouseup,
             },
             iconBoxOffset: -70,
             isLoading: true,
@@ -825,7 +825,6 @@ export default {
         vertical-align : top;
         text-align     : center;
         background     : $theme;
-        overflow       : hidden;
         writing-mode   : vertical-lr;
 
         & > * {
@@ -850,9 +849,10 @@ export default {
             margin-bottom : 40px;
 
             .play-control {
-                padding : 17px;
-                color   : $sakura;
-                cursor  : pointer;
+                padding  : 17px;
+                color    : $sakura;
+                overflow : hidden;
+                cursor   : pointer;
 
                 &:hover {
                     background : hsla(0, 0, 0, .1);
