@@ -29,7 +29,7 @@ module.exports = function (env = {}) {
             title: 'DDMusic',
         }),
         new webpack.DefinePlugin({
-            VERSION: JSON.stringify('1.0.0'),
+            VERSION: JSON.stringify('0.9.0'),
             IS_ELECTRON: false,
         }),
         new GenerateSW({
