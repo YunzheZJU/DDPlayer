@@ -1,0 +1,57 @@
+@import "normalize.css";
+@import "colors.scss";
+
+html {
+    font        : menu;
+    /*是否使用rem单位是要看情况的，icon型的文本用固定值即可*/
+    font-size   : 12px;
+    cursor      : default;
+    user-select : none;
+    background  : white;
+}
+
+a {
+    color           : inherit;
+    text-decoration : none;
+}
+
+p {
+    margin        : 0;
+    overflow      : hidden;
+    white-space   : nowrap;
+    text-overflow : ellipsis;
+}
+
+ul {
+    list-style-type : none;
+    margin          : 0;
+    padding         : 0;
+}
+
+i {
+    /*<i>用于图标，不重置也不影响*/
+    font-style : normal;
+}
+
+img {
+    width : 100%;
+}
+
+// 搜索结果的关键词高亮，由于使用v-html插值，scoped的样式无法生效
+span.highlight, a.highlight {
+    color : $theme-invert;
+}
+
+a.highlight:hover {
+    text-decoration : underline;
+}
+
+// 消除button的默认样式
+button {
+    background : transparent;
+}
+
+input {
+    padding    : 0;
+    background : inherit;
+}

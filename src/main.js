@@ -5,39 +5,35 @@
 'use strict';
 // 导入Vue框架
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Routers from './router.js';
 import Vuex from 'vuex';
+import VueRouter from 'vue-router';
+import VueHash from './plugins/hash';
+import VueAjax from './plugins/ajax';
+import StoreConfig from './stores';
+import RouterConfig from './router';
 // 导入vue组件
 import App from './app.vue';
-import './style.css';
+// 导入全局样式表
+import './styles/style.scss';
+// 导入SVG Symbol
+import './assets/ddicon.js';
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // 若service-worker.js不在网站根目录下，需要设置scope和响应的Service-Worker-Allowed头
+        navigator.serviceWorker.register('/service-worker.js');
+    });
+}
 
 Vue.use(VueRouter);
-Vue.use(Vuex);
-
-// 路由配置
-const RouterConfig = {
-    // 使用HTML 5的History模式
-    mode: 'history',
-    routes: Routers,
-};
 const router = new VueRouter(RouterConfig);
 
-router.beforeEach((to, from, next) => {
-    window.document.title = to.meta.title;
-    next();
-});
+Vue.use(Vuex);
+// noinspection JSValidateTypes
+const store = new Vuex.Store(StoreConfig);
 
-router.afterEach(() => {
-    window.scrollTo(0, 0);
-});
-
-const store = new Vuex.Store({
-    state: {},
-    getters: {},
-    mutations: {},
-    actions: {},
-});
+Vue.use(VueHash);
+Vue.use(VueAjax);
 
 const app = document.createElement('div');
 app.id = 'app';
@@ -48,5 +44,5 @@ new Vue({
     el: '#app',
     router,
     store,
-    render: h => h(App)
+    render: h => h(App),
 });

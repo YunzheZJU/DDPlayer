@@ -8,11 +8,19 @@
     "src"
   ],
   "scripts": {
-    "start": "npm run dev",
+    "start": "yarn run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "profile-w": "webpack --profile --json --config webpack/web.js > dist/web/stats.json",
+    "analyze-w": "webpack-bundle-analyzer dist/web/stats.json",
+    "profile-w&analyze-w": "yarn run profile && yarn run analyze",
     "dev": "webpack-dev-server",
+    "dev-w": "yarn run dev --config webpack/web.js",
+    "dev-r": "yarn run dev --config webpack/electron.renderer.js",
+    "electron": "electron src/electron.js",
     "build": "webpack --progress --hide-modules --env.production",
-    "serve": "live-server --entry-file=dist/index.html ."
+    "build-w": "yarn run build --config webpack/web.js",
+    "build-r": "yarn run build --config webpack/electron.renderer.js",
+    "build-m": "yarn run build --config webpack/electron.main.js"
   },
   "repository": {
     "type": "git",
@@ -33,25 +41,31 @@
   },
   "homepage": "https://github.com/YunzheZJU/DDPlayer#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.6",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-runtime": "^6.26.0",
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-eslint": "^9.0.0",
+    "babel-loader": "^8.0.2",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
+    "electron": "^3.0.5",
+    "electron-devtools-installer": "^2.2.4",
     "eslint": "^5.4.0",
     "eslint-plugin-vue": "^5.0.0-beta.3",
-    "file-loader": "^1.1.11",
+    "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
-    "live-server": "^1.2.0",
     "mini-css-extract-plugin": "^0.4.1",
+    "node-sass": "^4.9.3",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
     "postcss": "^7.0.2",
+    "postcss-cssnext": "^3.1.0",
     "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^5.3.0",
     "precss": "^3.1.2",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.22.1",
     "stylelint": "^9.5.0",
     "stylelint-config-recommended-scss": "^3.2.0",
@@ -64,12 +78,15 @@
     "vue-template-compiler": "^2.5.17",
     "web-webpack-plugin": "^4.0.1",
     "webpack": "^4.16.5",
+    "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5",
-    "webpack-merge": "^4.1.4"
+    "workbox-webpack-plugin": "^3.6.2"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0",
     "axios": "^0.18.0",
+    "localforage": "^1.7.2",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -84,31 +101,34 @@
     "last 3 Chrome versions",
     "last 3 Firefox versions",
     "Safari >= 10",
-    "Explorer >= 8",
+    "Explorer >= 9",
     "Edge >= 12",
     "iOS >= 10",
     "Android >= 6"
   ],
   "babel": {
     "presets": [
-      "env"
+      "@babel/env"
     ],
     "plugins": [
-      "transform-runtime",
-      "syntax-dynamic-import"
-    ],
-    "comments": true
+      "@babel/plugin-transform-runtime",
+      "@babel/plugin-syntax-dynamic-import",
+      "@babel/plugin-syntax-object-rest-spread"
+    ]
   },
   "postcss": {
     "plugins": {
-      "precss": {}
+      "postcss-cssnext": {}
     }
   },
   "stylelint": {
     "extends": "stylelint-config-recommended-scss",
     "rules": {
       "font-family-no-duplicate-names": null,
-      "no-empty-source": null
+      "no-empty-source": null,
+      "property-no-unknown": null,
+      "no-descending-specificity": null,
+      "font-family-no-missing-generic-family-keyword": null
     }
   },
   "eslintConfig": {
@@ -141,11 +161,11 @@
         "single"
       ],
       "semi": [
-        "error",
+        "warn",
         "always"
       ],
       "comma-dangle": [
-        "error",
+        "warn",
         "always-multiline"
       ],
       "no-undef": 0,
@@ -170,7 +190,6 @@
       "prefer-const": 1,
       "array-callback-return": 1,
       "dot-location": 1,
-      "dot-notation": 1,
       "no-eval": 1,
       "no-extend-native": 1,
       "no-extra-label": 1,
