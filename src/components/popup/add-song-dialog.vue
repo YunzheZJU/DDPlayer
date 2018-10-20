@@ -110,7 +110,7 @@ export default {
                 this.$store.dispatch('addSongToCollection', {id: collectionId, songId: this.id});
             });
             this.collections.filter(
-                collection => this.targetCollections.includes(collection.id),
+                collection => !this.targetCollections.includes(collection.id),
             ).forEach(collection => {
                 this.$store.dispatch('removeSongFromCollection', {id: collection.id, songId: this.id});
             });

@@ -92,8 +92,11 @@ export default {
             root: true,
             handler: ({commit, getters}, {id, songId}) => {
                 const playlist = getters.collectionOfId(id).playlist;
-                if (playlist.includes(songId)) {
+                if (!playlist.includes(songId)) {
                     commit('addSongToCollection', {index: getters.collectionIndexOfId(id), songId: songId});
+                    if (getters.collectionOfId(id).playlist.length === 1) {
+                        commit('setCollectionCover', {index: getters.collectionIndexOfId(id), cover: 0});
+                    }
                 }
             },
         },
@@ -103,6 +106,9 @@ export default {
                 const playlist = getters.collectionOfId(id).playlist;
                 if (playlist.includes(songId)) {
                     commit('removeSongFromCollection', {index: getters.collectionIndexOfId(id), songId: songId});
+                    if (getters.collectionOfId(id).playlist.length < getters.collectionOfId(id).cover + 1) {
+                        commit('setCollectionCover', {index: getters.collectionIndexOfId(id), cover: getters.collectionOfId(id).playlist.length - 1});
+                    }
                 }
             },
         },

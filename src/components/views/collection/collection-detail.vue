@@ -392,6 +392,10 @@ export default {
         this.handleHashChange(this.$hash);
         this.$hasher.bind(this.handleHashChange);
         this.getCollection(this.id);
+        // 在当前歌单中把这首歌取消添加在这个歌单的情况，需要deep监视collections数组
+        this.$watch('collections', () => {
+            this.getCollection(this.id);
+        }, {deep: true});
     },
     destroyed () {
         this.$hasher.unbind(this.handleHashChange);
