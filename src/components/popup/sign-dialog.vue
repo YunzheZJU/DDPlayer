@@ -107,7 +107,7 @@ export default {
             password: '',
             passwordConfirmed: '',
             username: '',
-            cc98url: 'https://openid.cc98.org/connect/authorize?client_id=81b172e6-6a62-4fee-3a7b-08d571f52ead&scope=openid%20cc98-api&response_type=id_token%20token&redirect_uri=http%3a%2f%2flocalhost:8080&state=abc&nonce=xyz',
+            cc98url: `https://openid.cc98.org/connect/authorize?client_id=81b172e6-6a62-4fee-3a7b-08d571f52ead&scope=openid%20cc98-api&response_type=id_token%20token&redirect_uri=${location.origin}&state=abc&nonce=xyz`,
             cc98logo: CC98LOGO,
             passed: {
                 userId: false,
