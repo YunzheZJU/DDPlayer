@@ -39,6 +39,7 @@ export default {
         position : relative;
 
         &-bg {
+            width        : 100%;
             height       : 100%;
             color        : $theme;
             background   : white;
