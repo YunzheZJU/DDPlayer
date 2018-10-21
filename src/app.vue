@@ -353,9 +353,25 @@ export default {
                 this.$hasher.remove('about');
             }
         },
-        playing () {
+        playing (newValue, oldValue) {
+            if (!newValue) {
+                if (this.inspect) {
+                    console.log('no playing');
+                }
+                return;
+            }
+            if (oldValue && newValue.id === oldValue.id) {
+                if (this.inspect) {
+                    console.log('redundant change');
+                }
+                return;
+            }
+            if (this.inspect) {
+                console.log('reload');
+                console.log(newValue);
+                console.log(oldValue);
+            }
             // 切换歌曲src后应该load()一次
-            console.log('reload');
             this.audio.load();
             if (this.noPlaying) {
                 this.audio.pause();
