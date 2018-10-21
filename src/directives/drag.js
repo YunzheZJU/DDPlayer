@@ -18,7 +18,7 @@ export default {
                 binding.value.mousemove(event);
             }
         };
-        el.__vueDragRelease__ = () => {
+        el.__vueDragRelease__ = event => {
             if (binding.value.mouseup) {
                 binding.value.mouseup(event);
             }
