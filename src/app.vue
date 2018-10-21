@@ -1,183 +1,191 @@
 <template>
-    <div id="ddmusic" :style="rootStyles">
-        <audio
-                crossorigin="anonymous"
-                id="audio"
-                ref="audio"
-                :src="noPlaying ? '' : playing.fileUrl"
-                @abort="log('abort')"
-                @canplay="log('canplay')"
-                @canplaythrough="log('canplaythrough')"
-                @durationchange="handleDurationChange"
-                @emptied="log('emptied')"
-                @ended="handleEnded"
-                @error="handleError"
-                @loadeddata="handleLoadedData"
-                @loadedmetadata="log('loadedmetadata')"
-                @loadstart="log('loadstart')"
-                @pause="log('pause')"
-                @play="log('play')"
-                @playing="log('playing')"
-                @progress="handleProgress"
-                @ratechange="log('ratechange')"
-                @seeked="handleSeeked"
-                @seeking="log('seeking')"
-                @stalled="log('stalled')"
-                @suspend="log('suspend')"
-                @timeupdate="handleTimeUpdate"
-                @volumechange="log('volumechange')"
-                @waiting="log('waiting')"></audio>
-        <div id="content-area" :style="contentStyles">
-            <ContentHeader></ContentHeader>
-            <!--<transition mode="out-in">-->
-            <!--<router-view class="slide"></router-view>-->
-            <!--</transition>-->
-            <router-view></router-view>
-            <MessageBox v-for="msg in message" :theme="msg.type" :key="msg.id">
-                {{ msg.content }}
-            </MessageBox>
-            <AddSongDialog></AddSongDialog>
-        </div>
-        <div id="list-area" :style="listStyles">
-            <div class="list-resize" v-drag="{mousemove: handleListResizeMouseMove}"></div>
-            <InfoBoard @single="toggleSingle"></InfoBoard>
-            <ButtonBoard></ButtonBoard>
-        </div>
-        <SongIndicator :current-time="isSeekingTime ? seekTime : currentTime"></SongIndicator>
-        <Single
-                id="single"
-                :time="isSeekingTime ? seekTime : currentTime"
-                v-show="showSingle && !noPlaying"
-                @focus="handleFocusProgress"
-                @seek="handleSeekProgress"
-                @commit="handleCommitProgress">
-        </Single>
-        <LyricsBoard id="lyrics-board" v-show="showLyrics">
-            <p>没有找到歌词</p>
-        </LyricsBoard>
-        <SignDialog id="sign-dialog" v-show="showSignDialog" @close="handleCloseSign"></SignDialog>
-        <AboutDialog id="about-dialog" v-show="showAboutDialog" @close="handleCloseAbout"></AboutDialog>
-        <div id="control-column" :style="controlStyles">
-            <!--<div id="close-single" title="隐藏单曲页">-->
-            <!--<Icon type="layout" size="xxl"></Icon>-->
-            <!--</div>-->
-            <div class="top-group">
-                <ControlButton
-                        @left="handleVolume('minus')"
-                        @right="handleVolume('plus')"
-                        @doublemain="handleClickMute">
-                    <Icon slot="main" :type="isMuted ? 'mute' : 'volume'" size="lg"
-                          title="单击：调出音量面板 | 按住并滑动：快速操作"></Icon>
-                    <Icon slot="left" type="minus" size="xs" title="减小音量"></Icon>
-                    <Icon slot="right" type="plus" size="xs" title="增大音量"></Icon>
-                    <FloatBoxItem slot="setting" :can-hover="false" :icon="true">
-                        <Icon
-                                slot="icon"
-                                :type="isMuted || mutedUI ? 'mute' : 'volume'"
-                                size="xs"
-                                color="#d1382a"
-                                @click.native="handleClickMute"
-                                @mouseenter.native="handleHoverMute('enter')"
-                                @mouseleave.native="handleHoverMute('leave')"
-                        ></Icon>
-                        <ProgressBar slot="content"
-                                     class="volume-control-bar"
-                                     :value="volume"
-                                     :total="1"
-                                     :extra="false"
-                                     :should-hover="false"
-                                     @seek="handleSeekVolume"
-                                     @commit="handleCommitVolume">
-                        </ProgressBar>
-                    </FloatBoxItem>
-                </ControlButton>
-                <ControlButton
-                        @left="handleControl('minus')"
-                        @right="handleControl('plus')">
-                    <Icon slot="main" :type="`mode-${mode}`" size="lg" title="单击：调出模式面板 | 按住并滑动：快速操作"></Icon>
-                    <Icon slot="left" type="previous-1" size="xs" title="上一曲"
-                          @click.native="handleClickPrevious"></Icon>
-                    <Icon slot="right" type="next-1" size="xs" title="下一曲" @click.native="handleClickNext"></Icon>
-                    <div slot="setting" class="mode-list">
-                        <FloatBoxItem
-                                class="mode-list-mode"
-                                v-for="m in modeListModes"
-                                :can-hover="true"
-                                :icon="true"
-                                :key="m.key"
-                                :class="m.key === mode ? 'active' : ''"
-                                @click.native="handleClickMode(m.key)">
-                            <Icon slot="icon" :type="`mode-${m.key}`" size="xs"></Icon>
-                            <div slot="content">{{ m.name }}</div>
-                        </FloatBoxItem>
+    <div class="Re">
+        <div class="TrymenT">
+            <div id="ddmusic" :style="rootStyles">
+                <audio
+                        crossorigin="anonymous"
+                        id="audio"
+                        ref="audio"
+                        :src="noPlaying ? '' : playing.fileUrl"
+                        @abort="log('abort')"
+                        @canplay="log('canplay')"
+                        @canplaythrough="log('canplaythrough')"
+                        @durationchange="handleDurationChange"
+                        @emptied="log('emptied')"
+                        @ended="handleEnded"
+                        @error="handleError"
+                        @loadeddata="handleLoadedData"
+                        @loadedmetadata="log('loadedmetadata')"
+                        @loadstart="log('loadstart')"
+                        @pause="log('pause')"
+                        @play="log('play')"
+                        @playing="log('playing')"
+                        @progress="handleProgress"
+                        @ratechange="log('ratechange')"
+                        @seeked="handleSeeked"
+                        @seeking="log('seeking')"
+                        @stalled="log('stalled')"
+                        @suspend="log('suspend')"
+                        @timeupdate="handleTimeUpdate"
+                        @volumechange="log('volumechange')"
+                        @waiting="log('waiting')"></audio>
+                <div id="content-area" :style="contentStyles">
+                    <ContentHeader></ContentHeader>
+                    <!--<transition mode="out-in">-->
+                    <!--<router-view class="slide"></router-view>-->
+                    <!--</transition>-->
+                    <router-view></router-view>
+                    <MessageBox v-for="msg in message" :theme="msg.type" :key="msg.id">
+                        {{ msg.content }}
+                    </MessageBox>
+                    <AddSongDialog></AddSongDialog>
+                </div>
+                <div id="list-area" :style="listStyles">
+                    <div class="list-resize" v-drag="{mousemove: handleListResizeMouseMove}"></div>
+                    <InfoBoard @single="toggleSingle"></InfoBoard>
+                    <ButtonBoard></ButtonBoard>
+                </div>
+                <SongIndicator :current-time="isSeekingTime ? seekTime : currentTime"></SongIndicator>
+                <Single
+                        id="single"
+                        :time="isSeekingTime ? seekTime : currentTime"
+                        v-show="showSingle && !noPlaying"
+                        @focus="handleFocusProgress"
+                        @seek="handleSeekProgress"
+                        @commit="handleCommitProgress">
+                </Single>
+                <LyricsBoard id="lyrics-board" v-show="showLyrics">
+                    <p>没有找到歌词</p>
+                </LyricsBoard>
+                <SignDialog id="sign-dialog" v-show="showSignDialog" @close="handleCloseSign"></SignDialog>
+                <AboutDialog id="about-dialog" v-show="showAboutDialog" @close="handleCloseAbout"></AboutDialog>
+                <div id="control-column" :style="controlStyles">
+                    <!--<div id="close-single" title="隐藏单曲页">-->
+                    <!--<Icon type="layout" size="xxl"></Icon>-->
+                    <!--</div>-->
+                    <div class="top-group">
+                        <ControlButton
+                                @left="handleVolume('minus')"
+                                @right="handleVolume('plus')"
+                                @doublemain="handleClickMute">
+                            <Icon slot="main" :type="isMuted ? 'mute' : 'volume'" size="lg"
+                                  title="单击：调出音量面板 | 按住并滑动：快速操作"></Icon>
+                            <Icon slot="left" type="minus" size="xs" title="减小音量"></Icon>
+                            <Icon slot="right" type="plus" size="xs" title="增大音量"></Icon>
+                            <FloatBoxItem slot="setting" :can-hover="false" :icon="true">
+                                <Icon
+                                        slot="icon"
+                                        :type="isMuted || mutedUI ? 'mute' : 'volume'"
+                                        size="xs"
+                                        color="#d1382a"
+                                        @click.native="handleClickMute"
+                                        @mouseenter.native="handleHoverMute('enter')"
+                                        @mouseleave.native="handleHoverMute('leave')"
+                                ></Icon>
+                                <ProgressBar slot="content"
+                                             class="volume-control-bar"
+                                             :value="volume"
+                                             :total="1"
+                                             :extra="false"
+                                             :should-hover="false"
+                                             @seek="handleSeekVolume"
+                                             @commit="handleCommitVolume">
+                                </ProgressBar>
+                            </FloatBoxItem>
+                        </ControlButton>
+                        <ControlButton
+                                @left="handleControl('minus')"
+                                @right="handleControl('plus')">
+                            <Icon slot="main" :type="`mode-${mode}`" size="lg"
+                                  title="单击：调出模式面板 | 按住并滑动：快速操作"></Icon>
+                            <Icon slot="left" type="previous-1" size="xs" title="上一曲"
+                                  @click.native="handleClickPrevious"></Icon>
+                            <Icon slot="right" type="next-1" size="xs" title="下一曲"
+                                  @click.native="handleClickNext"></Icon>
+                            <div slot="setting" class="mode-list">
+                                <FloatBoxItem
+                                        class="mode-list-mode"
+                                        v-for="m in modeListModes"
+                                        :can-hover="true"
+                                        :icon="true"
+                                        :key="m.key"
+                                        :class="m.key === mode ? 'active' : ''"
+                                        @click.native="handleClickMode(m.key)">
+                                    <Icon slot="icon" :type="`mode-${m.key}`" size="xs"></Icon>
+                                    <div slot="content">{{ m.name }}</div>
+                                </FloatBoxItem>
+                            </div>
+                        </ControlButton>
+                        <ControlButton
+                                @left="handleLyric('minus')"
+                                @right="handleLyric('plus')">
+                            <Icon slot="main" type="lyric" size="lg" title="单击：显示/隐藏歌词 | 按住并滑动：快速操作"
+                                  @click.native="handleClickLyrics"></Icon>
+                            <Icon slot="left" type="minus" size="xs" title="歌词延后0.1秒"></Icon>
+                            <Icon slot="right" type="plus" size="xs" title="歌词提前0.1秒"></Icon>
+                            <FloatBoxItem slot="setting" :can-hover="false" :icon="false">
+                                <div slot="content">唔...</div>
+                            </FloatBoxItem>
+                        </ControlButton>
                     </div>
-                </ControlButton>
-                <ControlButton
-                        @left="handleLyric('minus')"
-                        @right="handleLyric('plus')">
-                    <Icon slot="main" type="lyric" size="lg" title="单击：显示/隐藏歌词 | 按住并滑动：快速操作"
-                          @click.native="handleClickLyrics"></Icon>
-                    <Icon slot="left" type="minus" size="xs" title="歌词延后0.1秒"></Icon>
-                    <Icon slot="right" type="plus" size="xs" title="歌词提前0.1秒"></Icon>
-                    <FloatBoxItem slot="setting" :can-hover="false" :icon="false">
-                        <div slot="content">唔...</div>
-                    </FloatBoxItem>
-                </ControlButton>
-            </div>
-            <div class="middle-group" @click="togglePlay" :class="{playing: isPlaying}">
-                <div class="play-control">
-                    <div class="play-control-icon-box" :class="{dragging: dragPlay.isDragging}"
-                         :style="playIconBoxStyles">
-                        <Icon class="play-control-icon" type="previous-3" size="3xl"></Icon>
-                        <Icon class="play-control-icon" :type="isPlaying ? 'pause' : 'play-1'" size="3xl"
-                              v-drag="dragPlayHandlers"></Icon>
-                        <Icon class="play-control-icon" type="next-3" size="3xl"></Icon>
+                    <div class="middle-group" @click="togglePlay" :class="{playing: isPlaying}">
+                        <div class="play-control">
+                            <div class="play-control-icon-box" :class="{dragging: dragPlay.isDragging}"
+                                 :style="playIconBoxStyles">
+                                <Icon class="play-control-icon" type="previous-3" size="3xl"></Icon>
+                                <Icon class="play-control-icon" :type="isPlaying ? 'pause' : 'play-1'" size="3xl"
+                                      v-drag="dragPlayHandlers"></Icon>
+                                <Icon class="play-control-icon" type="next-3" size="3xl"></Icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-group">
+                        <div class="sign" @click="handleClickSign">
+                            <template v-if="isLogged">
+                                <Thumbnail class="user-info" :src="userInfo.avatarSrc" :is-round="true"
+                                           border-color="white"
+                                           size="36px">
+                                </Thumbnail>
+                            </template>
+                            <template v-else>
+                                <p>登录...</p>
+                            </template>
+                        </div>
+                        <div class="logo" @click="handleClickAbout">
+                            <Icon type="logo" size="5xl"></Icon>
+                        </div>
+                        <div class="version">
+                            <p>DVER-{{ version.split('.').join('') | addZero(4) }}</p>
+                        </div>
+                        <div class="resize" v-drag="{mousemove: handleResizeMouseMove}" v-if="!isElectron"></div>
                     </div>
                 </div>
-            </div>
-            <div class="bottom-group">
-                <div class="sign" @click="handleClickSign">
-                    <template v-if="isLogged">
-                        <Thumbnail class="user-info" :src="userInfo.avatarSrc" :is-round="true" border-color="white"
-                                   size="36px">
-                        </Thumbnail>
-                    </template>
-                    <template v-else>
-                        <p>登录...</p>
-                    </template>
-                </div>
-                <div class="logo" @click="handleClickAbout">
-                    <Icon type="logo" size="5xl"></Icon>
-                </div>
-                <div class="version">
-                    <p>DVER-{{ version.split('.').join('') | addZero(4) }}</p>
-                </div>
-                <div class="resize" v-drag="{mousemove: handleResizeMouseMove}" v-if="!isElectron"></div>
-            </div>
-        </div>
-        <ProgressBar
-                id="progress-bar"
-                :value="isSeekingTime ? seekTime : currentTime"
-                :total="duration"
-                :extra="true"
-                :should-hover="true"
-                :allow-interaction="!noPlaying"
-                @focus="handleFocusProgress"
-                @seek="handleSeekProgress"
-                @commit="handleCommitProgress">
-            <template>
-                {{ currentTime | formatTime }}
-                /
-                <span :class="timeIndicatorClasses">
+                <ProgressBar
+                        id="progress-bar"
+                        :value="isSeekingTime ? seekTime : currentTime"
+                        :total="duration"
+                        :extra="true"
+                        :should-hover="true"
+                        :allow-interaction="!noPlaying"
+                        @focus="handleFocusProgress"
+                        @seek="handleSeekProgress"
+                        @commit="handleCommitProgress">
+                    <template>
+                        {{ currentTime | formatTime }}
+                        /
+                        <span :class="timeIndicatorClasses">
                     {{ isSeekingTime ? seekTime : duration | formatTime }}
                 </span>
-            </template>
-        </ProgressBar>
-        <CoverImage :image-src="noPlaying ? '' : playing.imageUrl" size="5xl" :state="noPlaying ? '' : playing.state"
-                    class="cover-img" :class="{'no-playing' : noPlaying}"
-                    :title="noPlaying ? '' : '显示单曲页'"
-                    @click.native="toggleSingle">
-        </CoverImage>
+                    </template>
+                </ProgressBar>
+                <CoverImage :image-src="noPlaying ? '' : playing.imageUrl" size="5xl"
+                            :state="noPlaying ? '' : playing.state"
+                            class="cover-img" :class="{'no-playing' : noPlaying}"
+                            :title="noPlaying ? '' : '显示单曲页'"
+                            @click.native="toggleSingle">
+                </CoverImage>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -294,6 +302,7 @@ export default {
         rootStyles () {
             return {
                 height: `${this.height}px`,
+                width: `${this.width}px`,
             };
         },
         contentStyles () {
@@ -746,23 +755,36 @@ export default {
 <style scoped lang="scss">
     @import "styles/colors";
 
-    #ddmusic {
-        position    : absolute;
-        transform   : translate3d(-50%, -50%, 0);
-        left        : 50%;
-        top         : 50%;
-        /*height      : 618px;*/
-        box-shadow  : 0 0 10px 1px $shadow;
-        white-space : nowrap;
-        font-size   : 0;
-        overflow    : hidden;
+    .Re {
+        position     : fixed;
+        top          : 0;
+        bottom       : 0;
+        left         : 0;
+        right        : 0;
+        font-size    : 0;
+        white-space  : nowrap;
+        writing-mode : vertical-lr;
+        text-align   : center;
+
+        .TrymenT {
+            display      : inline-block;
+            width        : 100%;
+            writing-mode : horizontal-tb;
+
+            #ddmusic {
+                display    : inline-block;
+                position   : relative;
+                box-shadow : 0 0 10px 1px $shadow;
+                overflow   : hidden;
+                text-align : initial;
+            }
+        }
     }
 
     #content-area {
         display        : inline-block;
         /*为MessageBox提供定位依据*/
         position       : relative;
-        /*width          : 730px;*/
         height         : 100%;
         background     : white;
         vertical-align : top;
