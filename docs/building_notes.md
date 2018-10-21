@@ -256,6 +256,22 @@
 
     解决方法是在webpack的devServer选项中增加headers配置，为所有响应添加Service-Worker-Allowed头，就允许将sw设置在'/'。
 
+1. 基于OAuth 2.0的OpenID
+
+    response_mode只能为fragment或form_post，query和web_message不可用
+    
+    为什么可以一下子拿到code和id_token？
+    因为这是Hybrid模式，id_token交给后端去安全地换取用户信息。授权码模式中只有code。
+    
+    state用于防范CSRF攻击？
+    state在攻击者替换掉返回的认证信息以获得之后用户输入的私密信息的情况中做防范。实际中可以省略。
+    通常在全站使用加密的state与后端通信以避免CSRF，意味着后端在redirect_uri会做state检查，
+    这时这个state必须写入redirect_uri，如果没有state检查，则这个redirect_uri可能受到CSRF攻击，
+    如被攻击者跨站提交自己的认证token。
+    
+    nonce是否可以省略？
+    nonce会被加密进token，因而将session和token进行绑定。实际中却不允许省略
+
 样式
 ----
 1. 三栏布局，两栏固定的实现
