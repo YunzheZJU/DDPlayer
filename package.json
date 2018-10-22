@@ -31,7 +31,7 @@
     "build-w-p": "yarn run build-w --env.public",
     "build-r-p": "yarn run build-r --env.public",
     "build-m-p": "yarn run build-m --env.public",
-    "build:all": "yarn run build-w && yarn run build-r && yarn run build-m && yarn run build-p-w && yarn run build-p-r && yarn run build-p-m"
+    "build:all": "yarn run build-w && yarn run build-r && yarn run build-m && yarn run build-w-p && yarn run build-r-p && yarn run build-m-p"
   },
   "repository": {
     "type": "git",
