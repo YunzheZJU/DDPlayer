@@ -28,7 +28,8 @@
     "build-p": "yarn run build --env.public",
     "build-p-w": "yarn run build-p --config webpack/web.js",
     "build-p-r": "yarn run build-p --config webpack/electron.renderer.js",
-    "build-p-m": "yarn run build-p --config webpack/electron.main.js"
+    "build-p-m": "yarn run build-p --config webpack/electron.main.js",
+    "build:all": "yarn run build-w && yarn run build-r && yarn run build-m && yarn run build-p-w && yarn run build-p-r && yarn run build-p-m"
   },
   "repository": {
     "type": "git",

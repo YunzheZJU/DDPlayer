@@ -12,6 +12,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = function (env = {}) {
     const isProduction = env['production'];
     const isPublic = env['public'];
+    const domain = isPublic ? 'public' : 'private';
 
     const plugins = [
         new webpack.DefinePlugin({
@@ -20,7 +21,7 @@ module.exports = function (env = {}) {
     ];
 
     if (isProduction) {
-        plugins.push(new CleanWebpackPlugin(['../dist/electron.main'], {
+        plugins.push(new CleanWebpackPlugin([`../dist/${domain}/electron.main`], {
             allowExternal: true,
         }));
     }
@@ -32,7 +33,7 @@ module.exports = function (env = {}) {
         },
         output: {
             // __dirname是当前文件所在位置
-            path: path.join(__dirname, '..', 'dist', 'electron.main'),
+            path: path.join(__dirname, '..', 'dist', domain, 'electron.main'),
             filename: 'main.js',
         },
         // webpack 4起设置mode之后不需要设置DefinePlugin来定义process.env.NODE_ENV
