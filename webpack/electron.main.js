@@ -9,7 +9,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = function (env = {}) {
-    const isProduction = env['production'] && false;
+    const isProduction = env['production'];
 
     const plugins = [];
 
