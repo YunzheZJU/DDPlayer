@@ -3,11 +3,15 @@
  */
 
 'use strict';
+import API from './api';
+
 const url = require('url');
 const {app, BrowserWindow, Menu} = require('electron');
 const {default: installExtension, VUEJS_DEVTOOLS} = require('electron-devtools-installer');
 
 const isProduction = process.env.NODE_ENV === 'production';
+// noinspection JSUnresolvedVariable
+const isPublic = IS_PUBLIC;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -26,13 +30,20 @@ function createWindow () {
     // 然后加载应用的 index.html。
     if (isProduction) {
         // 生产环境下应该打开test.anisong.online
-        win.loadURL(url.format({
-            protocol: 'https',
-            hostname: 'test.anisong.online',
-            slashes: true,
-        }));
+        // win.loadURL(url.format({
+        //     protocol: 'https',
+        //     hostname: 'test.anisong.online',
+        //     slashes: true,
+        // }));
+        win.loadURL(isPublic ? API.public.electron : API.private.electron);
         win.setMenu(null);
     } else {
+        console.log(url.format({
+            protocol: 'http',
+            hostname: 'localhost',
+            port: '8080',
+            slashes: true,
+        }));
         win.loadURL(url.format({
             protocol: 'http',
             hostname: 'localhost',

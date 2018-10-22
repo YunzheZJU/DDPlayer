@@ -16,6 +16,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = function (env = {}) {
     const isProduction = env['production'];
+    const isPublic = env['public'];
 
     const plugins = [
         new MiniCssExtractPlugin({
@@ -29,8 +30,9 @@ module.exports = function (env = {}) {
             title: 'DDMusic',
         }),
         new webpack.DefinePlugin({
-            VERSION: JSON.stringify('0.9.1'),
+            VERSION: JSON.stringify('0.9.2'),
             IS_ELECTRON: false,
+            IS_PUBLIC: isPublic,
         }),
         new GenerateSW({
             importWorkboxFrom: 'local',
