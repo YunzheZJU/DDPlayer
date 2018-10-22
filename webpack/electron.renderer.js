@@ -16,6 +16,8 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = function (env = {}) {
     const isProduction = env['production'];
+    const isPublic = env['public'];
+    const domain = isPublic ? 'public' : 'private';
 
     const plugins = [
         new MiniCssExtractPlugin({
@@ -29,8 +31,9 @@ module.exports = function (env = {}) {
             title: 'DDMusic',
         }),
         new webpack.DefinePlugin({
-            VERSION: JSON.stringify('0.9.1'),
+            VERSION: JSON.stringify('0.9.2'),
             IS_ELECTRON: true,
+            IS_PUBLIC: isPublic,
         }),
         new GenerateSW({
             importWorkboxFrom: 'local',
@@ -82,7 +85,7 @@ module.exports = function (env = {}) {
     ];
 
     if (isProduction) {
-        plugins.push(new CleanWebpackPlugin(['../dist/electron.renderer'], {
+        plugins.push(new CleanWebpackPlugin([`../dist/${domain}/electron.renderer`], {
             allowExternal: true,
         }));
     }
@@ -94,7 +97,7 @@ module.exports = function (env = {}) {
         },
         output: {
             // __dirname是当前文件所在位置
-            path: path.join(__dirname, '..', 'dist', 'electron.renderer'),
+            path: path.join(__dirname, '..', 'dist', domain, 'electron.renderer'),
             publicPath: '/',
             // 为了不被serviceWorker影响，hash必须加上
             filename: 'main.[hash:8].js',
@@ -154,7 +157,7 @@ module.exports = function (env = {}) {
         } : undefined,
         devServer: {
             open: false,
-            contentBase: path.join(__dirname, '../dist/electron.renderer'),
+            contentBase: path.join(__dirname, `../dist/${domain}/electron.renderer`),
             historyApiFallback: {
                 rewrites: [
                     {

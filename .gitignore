@@ -544,3 +544,9 @@ fabric.properties
 
 # IntelliJ project files
 gen
+
+# Protect public api data file
+src/api/public.js
+
+# Ignore dist/ in dev branches
+dist/

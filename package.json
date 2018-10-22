@@ -1,6 +1,6 @@
 {
   "name": "ddplayer",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "title": "DDPlayer",
   "description": "DDPlayer is a frontend project of DDMusic.",
   "files": [
@@ -16,11 +16,22 @@
     "dev": "webpack-dev-server",
     "dev-w": "yarn run dev --config webpack/web.js",
     "dev-r": "yarn run dev --config webpack/electron.renderer.js",
-    "electron": "electron src/electron.js",
+    "dev-m": "webpack --config webpack/electron.main.js",
+    "electron": "electron dist/private/electron.main/main.js",
+    "dev-p": "yarn run dev --env.public",
+    "dev-w-p": "yarn run dev-w --env.public",
+    "dev-r-p": "yarn run dev-r --env.public",
+    "dev-m-p": "yarn run dev-m --env.public",
+    "electron-p": "electron dist/public/electron.main/main.js",
     "build": "webpack --progress --hide-modules --env.production",
     "build-w": "yarn run build --config webpack/web.js",
     "build-r": "yarn run build --config webpack/electron.renderer.js",
-    "build-m": "yarn run build --config webpack/electron.main.js"
+    "build-m": "yarn run build --config webpack/electron.main.js",
+    "build-p": "yarn run build --env.public",
+    "build-w-p": "yarn run build-w --env.public",
+    "build-r-p": "yarn run build-r --env.public",
+    "build-m-p": "yarn run build-m --env.public",
+    "build:all": "yarn run build-w && yarn run build-r && yarn run build-m && yarn run build-w-p && yarn run build-r-p && yarn run build-m-p"
   },
   "repository": {
     "type": "git",

@@ -4,16 +4,21 @@
 
 'use strict';
 import axios from 'axios';
+import API from '../api';
+
+// noinspection JSUnresolvedVariable
+const isPublic = IS_PUBLIC;
+
 // 基本配置
 const Util = {
-    // host比hostname多一个端口，但是80省略，因此相同
-    apiHost: 'api.anisong.online',
-    apiPath: 'https://api.anisong.online',
+    apiPath: API[isPublic ? 'public' : 'private'].api,
 };
+
 // Ajax通用配置
 Util.ajax = axios.create({
     baseURL: Util.apiPath + '/',
 });
+
 // 添加响应拦截器
 Util.ajax.interceptors.response.use(res => res.data);
 
