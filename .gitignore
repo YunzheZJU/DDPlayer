@@ -544,3 +544,6 @@ fabric.properties
 
 # IntelliJ project files
 gen
+
+# Ignore dist/ in dev branches
+dist/
