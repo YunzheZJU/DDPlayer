@@ -15,7 +15,7 @@ importScripts("/workbox-v3.6.2/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/workbox-v3.6.2"});
 
 importScripts(
-  "/precache-manifest.1f3a34821a02ac96c23ba2e74e8afe97.js"
+  "/precache-manifest.b82d9eec87823459dee282e34df1b521.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "DDMusic"});

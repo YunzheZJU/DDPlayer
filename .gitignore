@@ -549,4 +549,5 @@ gen
 src/api/public.js
 
 # Ignore dist/ in dev branches
-dist/
+# dist/
+dist/public/
